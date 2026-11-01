@@ -46,6 +46,10 @@
 #include "kernel_compat.h"
 #include "include/util.h"
 
+#ifdef CONFIG_KSU_SUSFS
+#include <linux/susfs.h>
+#endif // #ifdef CONFIG_KSU_SUSFS
+
 #include "policy/app_profile.h"
 #include "policy/allowlist.h"
 #include "policy/feature.h"
@@ -262,6 +266,10 @@ static int __init kernelsu_init(void)
 		pr_err("prepare cred failed!\n");
 		return -ENOSYS;
 	}
+
+#ifdef CONFIG_KSU_SUSFS
+	susfs_init();
+#endif // #ifdef CONFIG_KSU_SUSFS
 
 	// register features
 	ksu_feature_init();
